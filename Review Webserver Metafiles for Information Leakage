@@ -1,0 +1,82 @@
+Robots
+Web Spiders, Robots, or Crawlers retrieve a web page and then recursively traverse hyperlinks to retrieve further web content. Their accepted behavior is specified by the Robots Exclusion Protocol of the robots.txt file in the web root directory.
+
+As an example, the beginning of the robots.txt file from Google sampled on 2020 May 5 is quoted below:
+
+User-agent: *
+Disallow: /search
+Allow: /search/about
+Allow: /search/static
+Allow: /search/howsearchworks
+Disallow: /sdch
+...
+
+
+The User-Agent directive refers to the specific web spider/robot/crawler. For example, the User-Agent: Googlebot refers to the spider from Google while User-Agent: bingbot refers to a crawler from Microsoft. User-Agent: * in the example above applies to all web spiders/robots/crawlers.
+
+The Disallow directive specifies which resources are prohibited by spiders/robots/crawlers. In the example above, the following are prohibited:
+
+...
+Disallow: /search
+...
+Disallow: /sdch
+...
+Web spiders/robots/crawlers can intentionally ignore the Disallow directives specified in a robots.txt file, such as those from Social Networks to ensure that shared linked are still valid. Hence, robots.txt should not be considered as a mechanism to enforce restrictions on how web content is accessed, stored, or republished by third parties.
+
+The robots.txt file is retrieved from the web root directory of the web server. For example, to retrieve the robots.txt from www.google.com using wget or curl:
+
+$ curl -O -Ss http://www.google.com/robots.txt && head -n5 robots.txt
+User-agent: *
+Disallow: /search
+Allow: /search/about
+Allow: /search/static
+Allow: /search/howsearchworks
+...
+
+curl: A command-line tool for transferring data using various protocols.
+-O: Writes output to a file named as the remote file (in this case, robots.txt).
+-sS: Runs curl in a "silent" mode but shows errors if they occur.
+http://www.google.com/robots.txt: The URL of the robots.txt file to be downloaded.
+&&: Ensures the next command (head) runs only if curl succeeds.
+head -n 5 robots.txt: Displays the first 5 lines of the downloaded robots.txt file.
+
+META Tags
+<META> tags are located within the HEAD section of each HTML document and should be consistent across a web site in the event that the robot/spider/crawler start point does not begin from a document link other than webroot i.e. a deep link. Robots directive can also be specified through use of a specific META tag.
+
+Robots META Tag
+If there is no <META NAME="ROBOTS" ... > entry then the "Robots Exclusion Protocol" defaults to INDEX,FOLLOW respectively. Therefore, the other two valid entries defined by the "Robots Exclusion Protocol" are prefixed with NO... i.e. NOINDEX and NOFOLLOW.
+
+Based on the Disallow directive(s) listed within the robots.txt file in webroot, a regular expression search for <META NAME="ROBOTS" within each web page is undertaken and the result compared to the robots.txt file in webroot.
+
+Miscellaneous META Information Tags
+Organizations often embed informational META tags in web content to support various technologies such as screen readers, social networking previews, search engine indexing, etc. Such meta-information can be of value to testers in identifying technologies used, and additional paths/functionality to explore and test. The following meta information was retrieved from www.whitehouse.gov via View Page Source on 2020 May 05:
+
+...
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="The White House" />
+<meta property="og:description" content="We, the citizens of America, are now joined in a great national effort to rebuild our country and to restore its promise for all. – President Donald Trump." />
+<meta property="og:url" content="https://www.whitehouse.gov/" />
+<meta property="og:site_name" content="The White House" />
+<meta property="fb:app_id" content="1790466490985150" />
+<meta property="og:image" content="https://www.whitehouse.gov/wp-content/uploads/2017/12/wh.gov-share-img_03-1024x538.png" />
+<meta property="og:image:secure_url" content="https://www.whitehouse.gov/wp-content/uploads/2017/12/wh.gov-share-img_03-1024x538.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:description" content="We, the citizens of America, are now joined in a great national effort to rebuild our country and to restore its promise for all. – President Donald Trump." />
+<meta name="twitter:title" content="The White House" />
+<meta name="twitter:site" content="@whitehouse" />
+<meta name="twitter:image" content="https://www.whitehouse.gov/wp-content/uploads/2017/12/wh.gov-share-img_03-1024x538.png" />
+<meta name="twitter:creator" content="@whitehouse" />
+...
+<meta name="apple-mobile-web-app-title" content="The White House">
+<meta name="application-name" content="The White House">
+<meta name="msapplication-TileColor" content="#0c2644">
+<meta name="theme-color" content="#f5f5f5">
+...
+
+Sitemaps
+A sitemap is a file where a developer or organization can provide information about the pages, videos, and other files offered by the site or application, and the relationship between them.
+
+Security TXT
+security.txt is a proposed standard which allows websites to define security policies and contact details. 
+
